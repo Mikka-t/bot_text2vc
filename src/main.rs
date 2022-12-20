@@ -34,8 +34,9 @@ impl EventHandler for Handler {
 fn get_token(filename: &str) -> std::io::Result<String> {
     let path_of_cargo_toml = env::current_dir()?;
     let mut path = PathBuf::from(path_of_cargo_toml);
-    path.pop();
-    path.pop(); // commandsディレクトリから2つ上のディレクトリへ
+    // path.pop();
+    // path.pop(); // commandsディレクトリから2つ上のディレクトリへ
+    // Linux環境とWindows環境で変わる？気が向いたら検証する
     path.push(filename); // path of cargo.toml + filename
     println!("dir: {}", path.display());
 
