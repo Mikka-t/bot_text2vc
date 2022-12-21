@@ -53,7 +53,9 @@ async fn random(ctx: &Context, msg: &Message) -> CommandResult {
     if let Some(handler_lock) = manager.get(guild_id) {
         let mut handler = handler_lock.lock().await;
 
-        let wav_names = vec!["nyan"];
+        let wav_names = vec!["univ","bee","sii","soro","submarin","rikai","sinchoku","yummy",
+        "sleep","chainsaw","korosu","yade","mumumu","koya","chee","guo",
+        "poo","pon","nyan","pog","nu","wa"];
         let rand_num = rand::thread_rng().gen_range(0, wav_names.len());
 
         // wav読む
@@ -66,9 +68,6 @@ async fn random(ctx: &Context, msg: &Message) -> CommandResult {
 
         let _sound = handler.play_source(source.into());
 
-        msg.channel_id
-            .say(&ctx.http, format!(":wave: 退出しました"))
-            .await?;
     } else {
         msg.channel_id
             .say(&ctx.http, format!("今はVCにいません！"))
