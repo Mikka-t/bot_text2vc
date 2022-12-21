@@ -23,6 +23,11 @@ impl TypeMapKey for SoundStore {
     type Value = Arc<Mutex<HashMap<String, CachedSound>>>;
 }
 
+enum CachedSound {
+    Compressed(Compressed),
+    Uncompressed(Memory),
+}
+
 impl From<&CachedSound> for Input {
     fn from(obj: &CachedSound) -> Self {
         use CachedSound::*;

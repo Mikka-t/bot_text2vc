@@ -3,3 +3,6 @@
 # パスワードとか書いてる奴
 Secret.toml
 Secret.txt
+
+# 流す音声、著作権的にこわい
+/voice
