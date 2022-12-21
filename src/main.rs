@@ -14,11 +14,13 @@ use serenity::framework::standard::macros::{group};
 use serenity::framework::standard::{StandardFramework};
 use serenity::model::{gateway::Ready};
 
+use songbird::SerenityInit;
+
 mod commands;
-use commands::{nyan::*, ping::*};
+use commands::{nyan::*, ping::*, come::*, leave::*, random::*};
 
 #[group]
-#[commands(ping, nyan)]
+#[commands(ping, nyan, come, leave, random)]
 struct General;
 
 struct Handler;
@@ -36,7 +38,7 @@ fn get_token(filename: &str) -> std::io::Result<String> {
     let mut path = PathBuf::from(path_of_cargo_toml);
     // path.pop();
     // path.pop(); // commandsディレクトリから2つ上のディレクトリへ
-    // Linux環境とWindows環境で変わる？気が向いたら検証する
+    // 環境で変わる？気が向いたら検証する
     path.push(filename); // path of cargo.toml + filename
     println!("dir: {}", path.display());
 
@@ -64,7 +66,7 @@ fn get_token(filename: &str) -> std::io::Result<String> {
 #[tokio::main]
 async fn main() {
     let framework = StandardFramework::new()
-        .configure(|c| c.prefix("!voice ")) // プレフィックス "!voicebot"
+        .configure(|c| c.prefix("voicebot ")) // プレフィックス
         .group(&GENERAL_GROUP);
 
     // Login
@@ -74,6 +76,7 @@ async fn main() {
     let mut client = Client::builder(token, intents)
         .event_handler(Handler)
         .framework(framework)
+        .register_songbird()
         .await
         .expect("Error creating client");
 
@@ -81,4 +84,5 @@ async fn main() {
     if let Err(why) = client.start().await {
         println!("An error occurred while running the client: {:?}", why);
     }
+
 }

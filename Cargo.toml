@@ -12,4 +12,4 @@ tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }
 
 # Discord
 serenity = "0.11"
-songbird = { version = "0.3", default-features = false, features = ["serenity-native"] }
+songbird = "0.3"
