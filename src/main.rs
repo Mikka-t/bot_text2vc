@@ -40,7 +40,7 @@ fn get_token(filename: &str) -> std::io::Result<String> {
     // path.pop(); // commandsディレクトリから2つ上のディレクトリへ
     // 環境で変わる？気が向いたら検証する
     path.push(filename); // path of cargo.toml + filename
-    println!("dir: {}", path.display());
+    println!("dir: {:?}", path.display());
 
     let file = File::open(path)?;
     let reader = BufReader::new(file);
