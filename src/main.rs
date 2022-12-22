@@ -12,7 +12,7 @@ use serenity::async_trait;
 use serenity::prelude::*;
 use serenity::framework::standard::macros::{group};
 use serenity::framework::standard::{StandardFramework};
-use serenity::model::{gateway::Ready};
+use serenity::model::{gateway::Ready, channel::Message};
 
 use songbird::SerenityInit;
 
@@ -30,24 +30,21 @@ struct Handler;
 
 #[async_trait]
 impl EventHandler for Handler {
-    // Botが起動したとき
-    async fn ready(&self, _: Context, ready: Ready) {
-        println!("{} is connected!", ready.user.name);
-    }
 
     // メッセージが投稿されたとき
     async fn message(&self, ctx: Context, msg: Message) {
+        println!("{}", msg.content);
+        readmsg(&ctx,&msg).await;
         // bot
         /*if msg.author.bot {
             return;
         }*/
-	    // サーバーID
-        //eprintln!("guild_id = {:?}", msg.guild_id);
-	    // チャンネル名
-        //let channel_name = msg.channel_id.name(&ctx.cache).await;
-        //eprintln!("channel_name = {:?}", channel_name);
 	    // メッセージの送信
-        readmsg(ctx,msg);
+    }
+
+    // Botが起動したとき
+    async fn ready(&self, _: Context, ready: Ready) {
+        println!("{} is connected!", ready.user.name);
     }
 }
 
