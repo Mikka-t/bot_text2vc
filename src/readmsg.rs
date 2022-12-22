@@ -23,7 +23,25 @@ pub async fn readmsg(ctx: &Context, msg: &Message){
         .await;
     match res{
         Err(e) => println!("ERR: {}",e),
-        Ok(v) => println!("http: {:?}",v),
+        Ok(v) => {
+            println!("http: {:?}",v);
+            //let js = v.json();
+            let js = v.text().await;
+            println!("http: {:?}",js);
+            /*
+            let wav = client.post("http://localhost:50021/audio_query")
+                .json(&js)
+                .send()
+                .await;
+            match res{
+                Err(e) => println!("ERR: {}",e),
+                Ok(v) => {
+                    println!("http: {:?}",v);
+                }
+            }
+            */
+            
+        },
     }
 
 }
