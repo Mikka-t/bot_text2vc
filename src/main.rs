@@ -19,6 +19,8 @@ use songbird::SerenityInit;
 mod commands;
 use commands::{nyan::*, ping::*, come::*, leave::*, random::*, queue::*};
 
+mod readmsg;
+use readmsg::*;
 
 #[group]
 #[commands(ping, nyan, come, leave, random, queue)]
@@ -31,6 +33,21 @@ impl EventHandler for Handler {
     // Botが起動したとき
     async fn ready(&self, _: Context, ready: Ready) {
         println!("{} is connected!", ready.user.name);
+    }
+
+    // メッセージが投稿されたとき
+    async fn message(&self, ctx: Context, msg: Message) {
+        // bot
+        /*if msg.author.bot {
+            return;
+        }*/
+	    // サーバーID
+        //eprintln!("guild_id = {:?}", msg.guild_id);
+	    // チャンネル名
+        //let channel_name = msg.channel_id.name(&ctx.cache).await;
+        //eprintln!("channel_name = {:?}", channel_name);
+	    // メッセージの送信
+        readmsg(ctx,msg);
     }
 }
 

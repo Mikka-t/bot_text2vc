@@ -1,4 +1,4 @@
-use std::{collections::HashMap, convert::TryInto, sync::Arc};
+use std::{convert::TryInto, sync::Arc};
 
 use serenity::framework::standard::{macros::command, CommandResult, Args};
 use serenity::model::prelude::*;
@@ -13,7 +13,7 @@ use songbird::{
     },
 };
 
-
+// 公式のほぼコピペで、連続で喋ることがなくなる。すごい。
 
 #[command]
 #[description = "queue"]
