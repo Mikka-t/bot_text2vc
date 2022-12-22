@@ -17,10 +17,8 @@ use serenity::model::{gateway::Ready};
 use songbird::SerenityInit;
 
 mod commands;
-use commands::{nyan::*, ping::*, come::*, leave::*, random::*};
+use commands::{nyan::*, ping::*, come::*, leave::*, random::*, queue::*};
 
-mod queue;
-use queue::*;
 
 #[group]
 #[commands(ping, nyan, come, leave, random, queue)]
