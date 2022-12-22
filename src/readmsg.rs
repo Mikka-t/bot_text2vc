@@ -23,9 +23,10 @@ pub async fn readmsg(ctx: &Context, msg: &Message){
         .header(reqwest::header::CONTENT_TYPE, "application/x-www-form-urlencoded")
         .body(format!("text={}", text))
         .send()
-        .await
-        .unwrap();
-    
-    println!("http: {}",res.status());
+        .await;
+    match res{
+        Err(e) => println!("ERR: {}",e),
+        Ok(v) => println!("http: {}",v.status()),
+    }
 
 }
