@@ -67,6 +67,7 @@ async fn random(ctx: &Context, msg: &Message) -> CommandResult {
         let source = wav_src;
 
         let _sound = handler.play_source(source.into());
+        //handler.enqueue_source(source.into());
 
     } else {
         msg.channel_id

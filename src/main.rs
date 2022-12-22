@@ -19,8 +19,11 @@ use songbird::SerenityInit;
 mod commands;
 use commands::{nyan::*, ping::*, come::*, leave::*, random::*};
 
+mod queue;
+use queue::*;
+
 #[group]
-#[commands(ping, nyan, come, leave, random)]
+#[commands(ping, nyan, come, leave, random, queue)]
 struct General;
 
 struct Handler;
