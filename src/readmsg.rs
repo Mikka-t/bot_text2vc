@@ -16,16 +16,14 @@ pub async fn readmsg(ctx: &Context, msg: &Message){
 
     let client = reqwest::Client::new();
 
-    let text = "こんにちは";
+    let text = data; // あとで後処理追加する
     let res = client.post("http://localhost:50021/audio_query")
-        .query(&[("speaker", "1")])
-        .header(reqwest::header::CONTENT_TYPE, "application/x-www-form-urlencoded")
-        .body(format!("text={}", text))
+        .query(&[("text", text.as_str()), ("speaker", "1")])
         .send()
         .await;
     match res{
         Err(e) => println!("ERR: {}",e),
-        Ok(v) => println!("http: {}",v.status()),
+        Ok(v) => println!("http: {:?}",v),
     }
 
 }
