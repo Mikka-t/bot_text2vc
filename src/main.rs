@@ -33,7 +33,6 @@ impl EventHandler for Handler {
 
     // メッセージが投稿されたとき
     async fn message(&self, ctx: Context, msg: Message) {
-        println!("{}", msg.content);
         readmsg(&ctx,&msg).await;
         // bot
         /*if msg.author.bot {

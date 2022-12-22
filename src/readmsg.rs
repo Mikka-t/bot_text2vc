@@ -8,7 +8,6 @@ use serenity::prelude::*;
 
 
 pub async fn readmsg(ctx: &Context, msg: &Message){
-    println!("pog");
     let guild = msg.guild(&ctx.cache).unwrap();
     let guild_id = guild.id;
     let data = &msg.content;
@@ -18,7 +17,7 @@ pub async fn readmsg(ctx: &Context, msg: &Message){
     let client = reqwest::Client::new();
 
     let text = "こんにちは";
-    let res = client.post("localhost:50021/audio_query")
+    let res = client.post("http://localhost:50021/audio_query")
         .query(&[("speaker", "1")])
         .header(reqwest::header::CONTENT_TYPE, "application/x-www-form-urlencoded")
         .body(format!("text={}", text))
