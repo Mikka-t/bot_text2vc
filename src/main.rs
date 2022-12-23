@@ -33,12 +33,12 @@ impl EventHandler for Handler {
 
     // メッセージが投稿されたとき
     async fn message(&self, ctx: Context, msg: Message) {
-        readmsg(&ctx,&msg).await;
         // bot
-        /*if msg.author.bot {
+        if msg.author.bot {
             return;
-        }*/
+        }
 	    // メッセージの送信
+        readmsg(&ctx,&msg).await;
     }
 
     // Botが起動したとき
