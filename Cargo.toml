@@ -11,8 +11,11 @@ publish = false
 reqwest = "0.11"
 tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }
 rand = "0.6"
-# serde_json = "1.0"
 
 # Discord
 serenity = "0.11"
 songbird = { version = "0.3.0", features = ["builtin-queue"]}
+
+# serde_json
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }

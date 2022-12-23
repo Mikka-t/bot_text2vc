@@ -17,13 +17,13 @@ use serenity::model::{gateway::Ready, channel::Message};
 use songbird::SerenityInit;
 
 mod commands;
-use commands::{nyan::*, ping::*, come::*, leave::*, random::*, queue::*};
+use commands::{nyan::*, ping::*, come::*, leave::*, random::*, queue::*, listen::*};
 
-mod readmsg;
-use readmsg::*;
+mod message;
+use message::{readmsg::*, messagefix::*};
 
 #[group]
-#[commands(ping, nyan, come, leave, random, queue)]
+#[commands(ping, nyan, come, leave, random, queue, listen)]
 struct General;
 
 struct Handler;
@@ -35,6 +35,37 @@ impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
         // bot
         if msg.author.bot {
+            return;
+        }
+        if msg.content.contains("voicebot "){
+            if msg.content.len() > 16 {
+                if msg.content[..16] == "voicebot regist ".to_string() {
+                    messageregist(&msg.content[16..].to_string(), &ctx, &msg);
+                }
+            }
+            return;
+        }
+        if msg.content.contains("http"){
+            return;
+        }
+        
+
+        let chn_id = msg.channel_id.0;
+        let file = File::open("./data/channel").unwrap();
+        let reader = BufReader::new(file);
+        let lines: Lines<BufReader<File>> = reader.lines();
+        let mut flag = false;
+        
+        for line in lines {
+            let line = line.unwrap();
+
+            if line == format!("{}", chn_id) {
+                flag=true;
+                break;
+            }
+        }
+
+        if !flag{
             return;
         }
 	    // メッセージの送信

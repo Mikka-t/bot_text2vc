@@ -1,6 +1,7 @@
 # まいぼっと！　ＷⅠP
 
 ボイロとかの音声素材は配布禁止だったはずなので注意
+voicevoxにdockerから立てられる楽なやつがある！
 
 catgo.tomlと同じ場所にSECRET_TOKEN:{botトークン}と書かれたSecret.txtファイルを設置します
 

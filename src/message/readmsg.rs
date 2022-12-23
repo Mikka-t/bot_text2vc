@@ -14,6 +14,8 @@ use songbird::{
     },
 };
 
+use super::messagefix::*;
+
 pub async fn readmsg(ctx: &Context, msg: &Message){
     let guild = msg.guild(&ctx.cache).unwrap();
     let guild_id = guild.id;
@@ -28,11 +30,16 @@ pub async fn readmsg(ctx: &Context, msg: &Message){
 
         let client = reqwest::Client::new();
 
+        let data_fix = messagefix(data).await.unwrap();
+
         // 文字列を分割
-        let texts: Vec<&str> = data.split([',', '.', '、', '。', '\n', '?', '!', '？', '！']).collect();
+        let texts: Vec<&str> = data_fix.split([',', '.', '、', '。', '\n', '?', '!', '？', '！']).collect();
 
         for text_str in texts{
             let text = text_str.to_string();
+            if text == "" {
+                continue;
+            }
 
             let res = client.post("http://localhost:50021/audio_query")
                 .query(&[("text", text.as_str()), ("speaker", "1")])
@@ -57,7 +64,19 @@ pub async fn readmsg(ctx: &Context, msg: &Message){
                         .send()
                         .await;
                     match wav{
-                        Err(we) => println!("ERR: {}",we),
+                        Err(we) => {
+                            println!("ERR: {}",we);
+                            // wav読む
+                            let wav_src = Compressed::new(
+                                input::ffmpeg(format!("./voice/yomiage.wav")).await.expect("ファイルが見つかりません……"),
+                                Bitrate::BitsPerSecond(128_000),
+                            ).expect("These parameters are well-defined.");
+                            let _ = wav_src.raw.spawn_loader();
+                            let source = wav_src;
+
+                            // let _sound = handler.play_source(source.into());
+                            handler.enqueue_source(source.into());
+                        },
                         Ok(wv) => {
                             // println!("http: {:?}",wv);
                             println!("読み上げ: {}",text);

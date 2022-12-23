@@ -6,3 +6,6 @@ Secret.txt
 
 # 流す音声、著作権的にこわい
 /voice
+
+# チャンネルIDとかユーザーIDとか。
+/data
