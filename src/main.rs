@@ -17,13 +17,13 @@ use serenity::model::{gateway::Ready, channel::Message};
 use songbird::SerenityInit;
 
 mod commands;
-use commands::{nyan::*, ping::*, come::*, leave::*, random::*, queue::*, listen::*};
+use commands::{nyan::*, ping::*, come::*, leave::*, random::*, queue::*, listen::*, unlisten::*};
 
 mod message;
-use message::{readmsg::*, messagefix::*};
+use message::{readmsg::*, messagefix::*, messageregist::*};
 
 #[group]
-#[commands(ping, nyan, come, leave, random, queue, listen)]
+#[commands(ping, nyan, come, leave, random, queue, listen, unlisten)]
 struct General;
 
 struct Handler;
@@ -40,7 +40,7 @@ impl EventHandler for Handler {
         if msg.content.contains("voicebot "){
             if msg.content.len() > 16 {
                 if msg.content[..16] == "voicebot regist ".to_string() {
-                    messageregist(&msg.content[16..].to_string(), &ctx, &msg);
+                    messageregist(&msg.content[16..].to_string(), &ctx, &msg).await;
                 }
             }
             return;
@@ -51,25 +51,23 @@ impl EventHandler for Handler {
         
 
         let chn_id = msg.channel_id.0;
-        let file = File::open("./data/channel").unwrap();
+        let file = File::open("./data/channel").expect("err");
         let reader = BufReader::new(file);
         let lines: Lines<BufReader<File>> = reader.lines();
         let mut flag = false;
         
-        for line in lines {
-            let line = line.unwrap();
+        for line_re in lines {
+            let line = line_re.unwrap();
+            println!("{}",line);
 
             if line == format!("{}", chn_id) {
-                flag=true;
+                // 読み上げ
+                readmsg(&ctx,&msg).await;
                 break;
             }
         }
 
-        if !flag{
-            return;
-        }
-	    // メッセージの送信
-        readmsg(&ctx,&msg).await;
+        
     }
 
     // Botが起動したとき

@@ -2,7 +2,6 @@ use std::{convert::TryInto, sync::Arc};
 use std::{fs::File, io::Write};
 use reqwest::*;
 
-use serenity::framework::standard::{macros::command, CommandResult};
 use serenity::model::prelude::*;
 use serenity::prelude::*;
 
@@ -31,6 +30,8 @@ pub async fn readmsg(ctx: &Context, msg: &Message){
         let client = reqwest::Client::new();
 
         let data_fix = messagefix(data).await.unwrap();
+
+        println!("fixedmsg: {}", data_fix);
 
         // 文字列を分割
         let texts: Vec<&str> = data_fix.split([',', '.', '、', '。', '\n', '?', '!', '？', '！']).collect();
