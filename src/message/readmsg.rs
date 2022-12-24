@@ -80,7 +80,7 @@ pub async fn readmsg(ctx: &Context, msg: &Message){
                     */
                     
                     let wav = client.post("http://localhost:50021/synthesis")
-                        .query(&[("speaker", "1")])
+                        .query(&[("speaker", &chara.to_string())])
                         .header("Content-type", "application/json")
                         .body(js)
                         .send()
