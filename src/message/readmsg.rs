@@ -1,5 +1,5 @@
 use std::{convert::TryInto, sync::Arc};
-use std::{fs::File, io::Write};
+use std::{fs::File, io::Write, fs};
 use reqwest::*;
 
 use serenity::model::prelude::*;
@@ -13,7 +13,17 @@ use songbird::{
     },
 };
 
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize, Debug)]
+#[allow(non_snake_case)]
+struct User2Voice {
+    User: u64,
+    Voice: u32,
+}
+
 use super::messagefix::*;
+
 
 pub async fn readmsg(ctx: &Context, msg: &Message){
     let guild = msg.guild(&ctx.cache).unwrap();
@@ -36,6 +46,17 @@ pub async fn readmsg(ctx: &Context, msg: &Message){
         // 文字列を分割
         let texts: Vec<&str> = data_fix.split([',', '.', '、', '。', '\n', '?', '!', '？', '！']).collect();
 
+        // ユーザーの声を取得
+        let v_file = fs::read_to_string("./data/voice.json").expect("JSON READ FAILED");
+        let deserialized: Vec<User2Voice> = serde_json::from_str(&v_file).unwrap();
+        let mut chara: u32 = 1;
+        for dic in &deserialized {
+            if dic.User == msg.author.id.0 {
+                chara = dic.Voice;
+            } 
+        }
+        println!("{}",chara);
+
         for text_str in texts{
             let text = text_str.to_string();
             if text == "" {
@@ -43,7 +64,7 @@ pub async fn readmsg(ctx: &Context, msg: &Message){
             }
 
             let res = client.post("http://localhost:50021/audio_query")
-                .query(&[("text", text.as_str()), ("speaker", "1")])
+                .query(&[("text", text.as_str()), ("speaker", &chara.to_string())])
                 .send()
                 .await;
             match res{

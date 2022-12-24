@@ -37,4 +37,8 @@ pub async fn messageregist(data:&String, ctx: &Context, msg: &Message) {
     let mut out_file = File::create("./data/dict.json").expect("ERR: writing");
     out_file.write_all(serialized.as_bytes());
 
+    msg.channel_id
+        .say(&ctx.http, format!("Ok! {} -> {}",bef,aft))
+        .await.expect("err sending");
+
 }

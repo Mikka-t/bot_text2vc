@@ -20,7 +20,7 @@ mod commands;
 use commands::{nyan::*, ping::*, come::*, leave::*, random::*, queue::*, listen::*, unlisten::*};
 
 mod message;
-use message::{readmsg::*, messagefix::*, messageregist::*};
+use message::{readmsg::*, messagefix::*, messageregist::*, voiceregist::*};
 
 #[group]
 #[commands(ping, nyan, come, leave, random, queue, listen, unlisten)]
@@ -42,6 +42,9 @@ impl EventHandler for Handler {
                 if msg.content[..16] == "voicebot regist ".to_string() {
                     messageregist(&msg.content[16..].to_string(), &ctx, &msg).await;
                 }
+                if msg.content[..15] == "voicebot voice ".to_string() {
+                    voiceregist(&msg.content[15..].to_string(), &ctx, &msg).await;
+                }
             }
             return;
         }
@@ -58,7 +61,7 @@ impl EventHandler for Handler {
         
         for line_re in lines {
             let line = line_re.unwrap();
-            println!("{}",line);
+            // println!("{}",line);
 
             if line == format!("{}", chn_id) {
                 // 読み上げ
