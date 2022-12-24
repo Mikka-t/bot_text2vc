@@ -37,18 +37,23 @@ impl EventHandler for Handler {
         if msg.author.bot {
             return;
         }
-        if msg.content.contains("voicebot "){
-            if msg.content.len() > 16 {
-                if msg.content[..16] == "voicebot regist ".to_string() {
-                    messageregist(&msg.content[16..].to_string(), &ctx, &msg).await;
+        let cont = &msg.content;
+        if cont.contains("voicebot "){
+            if cont.len() > 15 {
+                let end15 = cont.char_indices().map(|(i, _)| i).nth(15).unwrap();
+                if cont[..end15] == "voicebot voice ".to_string() {
+                    voiceregist(&cont[end15..].to_string(), &ctx, &msg).await;
                 }
-                if msg.content[..15] == "voicebot voice ".to_string() {
-                    voiceregist(&msg.content[15..].to_string(), &ctx, &msg).await;
+            }
+            if cont.len() > 16{
+                let end16 = cont.char_indices().map(|(i, _)| i).nth(16).unwrap();
+                if cont[..end16] == "voicebot regist ".to_string() {
+                    messageregist(&cont[end16..].to_string(), &ctx, &msg).await;
                 }
             }
             return;
         }
-        if msg.content.contains("http"){
+        if cont.contains("http"){
             return;
         }
         
