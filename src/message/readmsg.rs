@@ -28,7 +28,7 @@ use super::messagefix::*;
 pub async fn readmsg(ctx: &Context, msg: &Message){
     let guild = msg.guild(&ctx.cache).unwrap();
     let guild_id = guild.id;
-    let data = &msg.content;
+    let mut data = &msg.content;
 
     println!("readmsg: {}", data);
     
@@ -44,7 +44,7 @@ pub async fn readmsg(ctx: &Context, msg: &Message){
         println!("fixedmsg: {}", data_fix);
 
         // 文字列を分割
-        let texts: Vec<&str> = data_fix.split([',', '.', '、', '。', '\n', '?', '!', '？', '！']).collect();
+        let texts: Vec<&str> = data_fix.split([',', '.', '、', '。', '\n', '?', '!', '？', '！', '　']).collect();
 
         // ユーザーの声を取得
         let v_file = fs::read_to_string("./data/voice.json").expect("JSON READ FAILED");

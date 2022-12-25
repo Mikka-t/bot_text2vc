@@ -45,13 +45,17 @@ pub async fn voiceregist(data:&String, ctx: &Context, msg: &Message) {
         chara = 14;
         chara_str = "ひまり";
     }
+    else if data == "はう"{
+        chara = 10;
+        chara_str = "はう";
+    }
     else if data == "そら"{
         chara = 15;
         chara_str = "そら";
     }
     else{
         msg.channel_id
-            .say(&ctx.http, format!("voicebot voice {{ずんだもん, ずんだもん2, めたん, めたん2, つむぎ, ひまり, そら}}"))
+            .say(&ctx.http, format!("voicebot voice {{ずんだもん, ずんだもん2, めたん, めたん2, つむぎ, ひまり, そら, はう}}"))
             .await.expect("err: voice regist");
     }
 

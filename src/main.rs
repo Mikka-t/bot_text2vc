@@ -57,6 +57,10 @@ impl EventHandler for Handler {
             return;
         }
         
+        // 一定の長さ以上は読まない(通常会話ではない可能性が高い)
+        if cont.len() >= 100{
+            return;
+        }
 
         let chn_id = msg.channel_id.0;
         let file = File::open("./data/channel").expect("err");
