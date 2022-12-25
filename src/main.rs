@@ -58,7 +58,7 @@ impl EventHandler for Handler {
         }
         
         // 一定の長さ以上は読まない(通常会話ではない可能性が高い)
-        if cont.len() >= 100{
+        if cont.len() >= 250{
             return;
         }
 
